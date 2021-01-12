@@ -14,3 +14,5 @@ export enum TimeSlot {
 export enum AppEvents {
   Thinking = 'thinking'
 }
+
+export const ThinkingDelay = 4000;

@@ -3,7 +3,7 @@ import React from 'react';
 import { EventHandler } from '../services/event-handler.service';
 import { ExcuseService as ExcuseService } from '../services/excuses.service';
 import { PetitionService } from '../services/petition.service';
-import { AppEvents, ButtonState } from '../shared/enums';
+import { AppEvents, ButtonState, ThinkingDelay } from '../shared/enums';
 
 const PetitionTemplate = 'please answer the following question';
 
@@ -150,7 +150,7 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
     setTimeout(() => {
       PetitionService.processPetition(petition,
         this.handleSuccess.bind(this), this.handleFailure.bind(this));
-    }, 2000);
+    }, ThinkingDelay);
 
   }
 
