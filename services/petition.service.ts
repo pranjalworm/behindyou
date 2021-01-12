@@ -14,11 +14,11 @@ export class PetitionService {
         successCallback(answer);
 
       } else {
-        errorCallback()
+        errorCallback(false);
       }
 
     } catch (error) {
-      errorCallback();
+      errorCallback(true);
     }
   }
 }

@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { ExcusesService as ExcuseService } from '../services/excuses.service';
+import { EventHandler } from '../services/event-handler.service';
+import { ExcuseService as ExcuseService } from '../services/excuses.service';
 import { PetitionService } from '../services/petition.service';
-import { ButtonState } from '../shared/enums';
+import { AppEvents, ButtonState } from '../shared/enums';
 
 const PetitionTemplate = 'please answer the following question';
 
@@ -89,7 +90,7 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
         maskInput = true;
         delimiterCount = 1;
 
-        const petition = this.state.petition;
+        const petition = this.state.petition.trim();
         const wordsArr = petition.split(' ');
         const lastTypedWord = wordsArr[wordsArr.length - 1];
         petitionTemplateIndex = PetitionTemplate.lastIndexOf(lastTypedWord.toLowerCase());
@@ -133,12 +134,11 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
     event.preventDefault();
 
     if (this.state.askButtonText === ButtonState.AskAgain) {
-      this.setState({ ...this.defaultState });
-      maskInput = false;
-      petitionTemplateIndex = 0;
-      delimiterCount = 0;
+      this.resetValues();
       return;
     }
+
+    this.emitThinkingEvent(true);
 
     this.setState({
       askButtonText: ButtonState.Thinking,
@@ -164,9 +164,9 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
   }
 
 
-  handleFailure() {
+  handleFailure(invalidFormat: boolean) {
 
-    const excuse = ExcuseService.fetchExcuse();
+    const excuse = ExcuseService.fetchExcuse(invalidFormat);
 
     this.setState({
       askButtonText: 'Ask again',
@@ -174,15 +174,28 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
     });
   }
 
+  resetValues() {
+    this.setState({ ...this.defaultState });
+    maskInput = false;
+    petitionTemplateIndex = 0;
+    delimiterCount = 0;
+  }
+
+
+  emitThinkingEvent(enable: boolean) {
+
+    EventHandler.getHandler().emit(AppEvents.Thinking, enable);
+  }
+
 
   render() {
 
     const inputDisabledClass = this.state.inputDisabled ? ' disabled' : '';
-    const inputClasses = "placeholder-gray-500 w-9/12 max-w-screen-md p-3 mt-10 bg-transparent rounded-none border-b border-gray-200" + inputDisabledClass;
+    const inputClasses = "placeholder-gray-500 w-9/12 text-white max-w-screen-md p-3 mt-10 rounded-none" + inputDisabledClass;
 
     return (
       <div className="content">
-        <div className="text-2xl ml-10">
+        <div className="text-2xl ml-24">
           <form className="flex flex-col justify-center"
             onSubmit={this.handleSubmit}>
 
@@ -209,14 +222,14 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
               required />
 
             {/* ask button */}
-            <button className="rounded w-40 text-white p-2 mt-10 bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-400 hover:to-blue-600">
+            <button id="ask-button" className="rounded w-40 text-white p-2 mt-10 bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-400 hover:to-blue-600">
               {this.state.askButtonText}
             </button>
 
           </form>
         </div>
 
-        <div id={AnswerId} className="text-6xl ml-10 mt-10">{this.state.answerText}</div>
+        <div id={AnswerId} className="text-6xl text-white ml-24 mt-20">{this.state.answerText}</div>
       </div>
     );
   }

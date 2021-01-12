@@ -32,6 +32,15 @@ body {
   pointer-events: none;
 }
 
+#ask-button {
+  outline: none;
+  border: none;
+}
+
+#petition-input, #question-input {
+  background: transparent;
+}
+
 /********************************** SCROLLBAR *********************************/
 
 ::-webkit-scrollbar-track {
@@ -58,3 +67,5 @@ body {
 @tailwind components;
 
 @tailwind utilities;
+
+@import 'fireflies-style.css';
