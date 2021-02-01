@@ -1,22 +1,21 @@
 :root {
   --fireflyColor: yellow;
+  --fireflyWidth: 0.4vw;
+  --fireflyHeight: 0.4vw;
 }
 
 .thinking {
   --fireflyColor: darkblue;
-}
-
-body {
-  background: url(../assets/trees.jpg);
-  background-size: cover;
+  --fireflyWidth: 1vw;
+  --fireflyHeight: 1vw;
 }
 
 .firefly {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 0.4vw;
-  height: 0.4vw;
+  width: var(--fireflyWidth);
+  height: var(--fireflyHeight);
   margin: -0.2vw 0 0 9.8vw;
   animation: ease 200s alternate infinite;
   pointer-events: none;

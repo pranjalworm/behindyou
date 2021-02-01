@@ -135,6 +135,7 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
 
     if (this.state.askButtonText === ButtonState.AskAgain) {
       this.resetValues();
+      this.emitThinkingEvent(false);
       return;
     }
 
@@ -191,11 +192,11 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
   render() {
 
     const inputDisabledClass = this.state.inputDisabled ? ' disabled' : '';
-    const inputClasses = "placeholder-gray-500 w-9/12 text-white max-w-screen-md p-3 mt-10 rounded-none" + inputDisabledClass;
+    const inputClasses = "placeholder-gray-200 w-9/12 text-white max-w-screen-md p-3 mt-10 m-auto" + inputDisabledClass;
 
     return (
       <div className="content">
-        <div className="text-2xl ml-24">
+        <div className="text-2xl m-14">
           <form className="flex flex-col justify-center"
             onSubmit={this.handleSubmit}>
 
@@ -208,6 +209,7 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
               value={this.state.maskedPetition}
               onChange={this.handleChange}
               autoComplete="off"
+              autoFocus={true}
               required />
 
             {/* question input */}
@@ -215,21 +217,21 @@ export default class InputForm extends React.Component<{}, InputFormProps> {
               id={QuestionInputId}
               name="question"
               type="text"
-              placeholder="Write what you want to know"
+              placeholder="Write your question"
               value={this.state.question}
               onChange={this.handleChange}
               autoComplete="off"
               required />
 
             {/* ask button */}
-            <button id="ask-button" className="rounded w-40 text-white p-2 mt-10 bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-400 hover:to-blue-600">
+            <button id="ask-button" className="rounded w-40 text-white p-2 mt-10 m-auto bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-400 hover:to-blue-600">
               {this.state.askButtonText}
             </button>
 
           </form>
         </div>
 
-        <div id={AnswerId} className="text-6xl text-white ml-24 mt-20">{this.state.answerText}</div>
+        <div id={AnswerId} className="text-6xl text-white text-center mt-20 m-auto">{this.state.answerText}</div>
       </div>
     );
   }

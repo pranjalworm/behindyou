@@ -15,4 +15,4 @@ export enum AppEvents {
   Thinking = 'thinking'
 }
 
-export const ThinkingDelay = 4000;
+export const ThinkingDelay = 5000;

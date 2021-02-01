@@ -3,8 +3,8 @@ import React from 'react';
 export default function Header() {
 
   return (
-    <div className="p-8 text-3xl text-white">
-      <span className="ml-20 font-medium">I am everywhere</span>
+    <div className="p-8 text-5xl text-white flex justify-center">
+      <span className="m-4 font-medium">I Am Everywhere</span>
     </div>
   );
 }
